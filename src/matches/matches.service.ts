@@ -4,6 +4,7 @@ import { REGION_MAPPING } from 'src/utils/types';
 import { SummonersService } from 'src/summoners/summoners.service';
 import { HttpService } from '@nestjs/axios';
 import { getLolBaseUrl } from 'src/utils/get-lol-url';
+import { paginate } from 'src/utils/paginate';
 
 @Injectable()
 export class MatchesService {
@@ -47,10 +48,37 @@ export class MatchesService {
       });
       const matchList = response?.data;
 
-      const output = {
-        summonerName: summoner.name,
-        matchList,
-      };
+      return matchList;
+    } catch {
+      throw new HttpException('Invalid request', 400);
+    }
+  }
+
+  async getSummonerMatches(matchIdListDto: FindMatchByPUUIDInputDTO) {
+    const matchIds = await this.findMatchBySummonerPuuid(matchIdListDto);
+
+    const { region } = matchIdListDto;
+    const regionCluster = REGION_MAPPING[region];
+
+    try {
+      const matches = await Promise.all(
+        matchIds.map(async (matchId) => {
+          const url = `${getLolBaseUrl(
+            regionCluster,
+          )}/match/v5/matches/${matchId}`;
+          return (
+            await this.httpService.axiosRef.get(url, {
+              headers: { 'X-Riot-Token': this.apiKey },
+            })
+          ).data;
+        }),
+      );
+
+      const output = paginate(
+        matches,
+        matchIdListDto.page,
+        matchIdListDto.limit,
+      );
 
       return output;
     } catch {

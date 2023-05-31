@@ -8,6 +8,6 @@ export class MatchesController {
 
   @Get('match-list')
   findOne(@Query() query: FindMatchByPUUIDInputDTO) {
-    return this.matchesService.findMatchBySummonerPuuid(query);
+    return this.matchesService.getSummonerMatches(query);
   }
 }
