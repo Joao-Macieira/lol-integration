@@ -76,8 +76,8 @@ export class MatchesService {
 
       const output = paginate(
         matches,
-        matchIdListDto.page,
-        matchIdListDto.limit,
+        +matchIdListDto.page,
+        +matchIdListDto.limit,
       );
 
       return output;
