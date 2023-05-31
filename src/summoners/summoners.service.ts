@@ -1,7 +1,9 @@
 import { Repository } from 'typeorm';
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { HttpService } from '@nestjs/axios';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 
 import { getLolBaseUrl } from 'src/utils/get-lol-url';
 import { SummonerInputDTO } from './dto/summoner.dto';
@@ -18,6 +20,8 @@ export class SummonersService {
   constructor(
     @InjectRepository(Summoner)
     private readonly summonerRepository: Repository<Summoner>,
+    @Inject(CACHE_MANAGER)
+    private readonly cacheManager: Cache,
     private readonly httpService: HttpService,
   ) {
     this.apiKey = process.env.RIOT_API_KEY;
@@ -50,6 +54,10 @@ export class SummonersService {
   async getSummonerProfile(summonerDto: SummonerInputDTO): Promise<any> {
     const summonerAccount = await this.getSummonerAccount(summonerDto);
     const { id } = summonerAccount;
+
+    const cachedData = await this.cacheManager.get(id);
+
+    if (cachedData) return cachedData;
 
     const summoner = await this.summonerRepository.findOne({ where: { id } });
 
@@ -87,8 +95,11 @@ export class SummonersService {
       leaguePoints: profileData.leaguePoints,
       wins: profileData.wins,
       losses: profileData.losses,
+      region: summonerDto.region,
       masteryChampions: championsMasteries,
     };
+
+    await this.cacheManager.set(output.summonerId, output);
 
     return output;
   }
