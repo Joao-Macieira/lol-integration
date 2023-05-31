@@ -16,3 +16,22 @@ export enum REGIONS {
   tw2 = 'tw2',
   vn2 = 'vn2',
 }
+
+export enum REGION_MAPPING {
+  br1 = 'americas',
+  la1 = 'americas',
+  la2 = 'americas',
+  na1 = 'americas',
+  eun1 = 'europe',
+  euw1 = 'europe',
+  kr = 'asia',
+  ru = 'asia',
+  tr1 = 'asia',
+  jp1 = 'sea',
+  oc1 = 'sea',
+  ph2 = 'sea',
+  sg2 = 'sea',
+  th2 = 'sea',
+  tw2 = 'sea',
+  vn2 = 'sea',
+}
