@@ -29,20 +29,45 @@
 ## Installation
 
 ```bash
+With npm:
 $ npm install
+
+With yarn:
+$ yarn install
 ```
 
 ## Running the app
 
+To run the app, make sure you have Docker and Docker Compose installed on your machine.
+
+You can install with the following links:
+
+[Docker](https://www.docker.com/)
+
+[Docker Compose](https://docs.docker.com/compose/gettingstarted/)
+
+After everything is installed, you can proceed with the next command.
+
+```bash
+$ docker compose up -d
+```
+
+This command will create our database in Postgres and our Redis database.
+
+After that, you can run:
+
 ```bash
 # development
 $ npm run start
+$ yarn start
 
 # watch mode
 $ npm run start:dev
+$ yarn start:dev
 
 # production mode
 $ npm run start:prod
+$ yarn start:prod
 ```
 
 ## Test
@@ -57,6 +82,45 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
+
+## Endpoints
+The application has 3 endpoints:
+
+### Get Summoners infos
+`http://localhost:3000/summoner/infos/userName/userRegion`
+
+You can filter the summoners info by queueId
+
+A full route exemple:
+`http://localhost:3000/summoner/infos/PedrusP/br1?queueId=420`
+
+### Get Matches
+`http://localhost:3000/matches/match-list/userName/userRegion`
+
+You can pass some filters to get the matches:
+- startTime
+- endTime
+- queue
+- type
+- start
+- size
+- queueType
+- page
+- limit
+
+
+A full route exemple:
+`http://localhost:3000/matches/match-list/iMac/br1?queue=420&limit=3&page=1&size=4`
+
+### Get Leaderboard
+`http://localhost:3000/leaderboard/iMac/br1`
+
+You can filter the summoners info by queueId
+
+A full route exemple:
+`http://localhost:3000/leaderboard/iMac/br1?queueId=440`
+
+By default, we use queueId = 420, that's corresponds to `RANKED_SOLO_5x5`
 
 ## Support
 
