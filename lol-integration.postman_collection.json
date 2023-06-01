@@ -34,7 +34,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/matches/match-list?name=iMac&region=br1&queue=420&limit=3&page=1&size=4",
+					"raw": "http://localhost:3000/matches/match-list/iMac/br1?queue=420&limit=3&page=1&size=4",
 					"path": [
 						"matches",
 						"match-list"
