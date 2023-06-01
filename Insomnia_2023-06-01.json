@@ -1,0 +1,137 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2023-06-01T12:11:41.802Z",
+  "__export_source": "insomnia.desktop.app:v2023.2.2",
+  "resources": [
+    {
+      "_id": "req_7252f9e04e3f4d329011171689f83a11",
+      "parentId": "fld_5d99ad3d9d894cee969c49fd11daeb92",
+      "modified": 1685618397308,
+      "created": 1685479532451,
+      "url": "{{ _.baseUrl }}/summoner/infos/PedrusP/br1?queueId=420",
+      "name": "Summoner",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": -1685479532451,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_5d99ad3d9d894cee969c49fd11daeb92",
+      "parentId": "wrk_dd69487d45364c668344b6533d5f0691",
+      "modified": 1685479531175,
+      "created": 1685479531175,
+      "name": "Summoners",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1685479531175,
+      "_type": "request_group"
+    },
+    {
+      "_id": "wrk_dd69487d45364c668344b6533d5f0691",
+      "parentId": null,
+      "modified": 1685476280786,
+      "created": 1685476280786,
+      "name": "lol-integration",
+      "description": "",
+      "scope": "collection",
+      "_type": "workspace"
+    },
+    {
+      "_id": "req_86f87d1531b545768adb157681827d0a",
+      "parentId": "fld_5d99ad3d9d894cee969c49fd11daeb92",
+      "modified": 1685578905292,
+      "created": 1685556621831,
+      "url": "{{ _.baseUrl }}/matches/match-list?name=iMac&region=br1&queue=420&limit=3&page=1&size=4",
+      "name": "Matcher-list",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": -1685478871951.5,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_6edf1af198a1430aaf17194f053fc619",
+      "parentId": "fld_5d99ad3d9d894cee969c49fd11daeb92",
+      "modified": 1685620036262,
+      "created": 1685560879043,
+      "url": "{{ _.baseUrl }}/leaderboard/iMac/br1",
+      "name": "leaderboard",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": -1685478541701.75,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "env_6639ad47122b7450eee8c8385ef0880f05824e9e",
+      "parentId": "wrk_dd69487d45364c668344b6533d5f0691",
+      "modified": 1685621000899,
+      "created": 1685476280791,
+      "name": "Base Environment",
+      "data": {
+        "baseUrl": "http://localhost:3000"
+      },
+      "dataPropertyOrder": {
+        "&": [
+          "baseUrl"
+        ]
+      },
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1685476280791,
+      "_type": "environment"
+    },
+    {
+      "_id": "jar_6639ad47122b7450eee8c8385ef0880f05824e9e",
+      "parentId": "wrk_dd69487d45364c668344b6533d5f0691",
+      "modified": 1685476280792,
+      "created": 1685476280792,
+      "name": "Default Jar",
+      "cookies": [],
+      "_type": "cookie_jar"
+    },
+    {
+      "_id": "spc_7abbf6b35ed64fbe970d4137fe733d46",
+      "parentId": "wrk_dd69487d45364c668344b6533d5f0691",
+      "modified": 1685476280788,
+      "created": 1685476280788,
+      "fileName": "lol-integration",
+      "contents": "",
+      "contentType": "yaml",
+      "_type": "api_spec"
+    }
+  ]
+}

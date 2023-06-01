@@ -1,0 +1,87 @@
+{
+	"info": {
+		"_postman_id": "25d4dccb-c0d5-45e8-90c6-a63a27f67e8d",
+		"name": "lol-integration",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15754685"
+	},
+	"item": [
+		{
+			"name": "Get Summoner Info",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/summoner/infos/PedrusP/br1?queueId=420",
+					"path": [
+						"summoner",
+						"infos",
+						"PedrusP",
+						"br1"
+					],
+					"query": [
+						{
+							"key": "queue",
+							"value": "420"
+						}
+					]
+				}
+			}
+		},
+		{
+			"name": "Get Match List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/matches/match-list?name=iMac&region=br1&queue=420&limit=3&page=1&size=4",
+					"path": [
+						"matches",
+						"match-list"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "iMac"
+						},
+						{
+							"key": "region",
+							"value": "br1"
+						},
+						{
+							"key": "queue",
+							"value": "420"
+						},
+						{
+							"key": "limit",
+							"value": "3"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "size",
+							"value": "4"
+						}
+					]
+				}
+			}
+		},
+		{
+			"name": "Get Leaderboard",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/leaderboard/iMac/br1",
+					"path": [
+						"leaderboard",
+						"iMac",
+						"br1"
+					]
+				}
+			}
+		}
+	]
+}
