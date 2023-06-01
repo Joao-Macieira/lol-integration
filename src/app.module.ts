@@ -9,6 +9,7 @@ import { AppService } from './app.service';
 import { DatabaseModule } from './database/database.module';
 import { SummonersModule } from './summoners/summoners.module';
 import { MatchesModule } from './matches/matches.module';
+import { LeaderboardModule } from './leaderboard/leaderboard.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { MatchesModule } from './matches/matches.module';
     DatabaseModule,
     SummonersModule,
     MatchesModule,
+    LeaderboardModule,
   ],
   controllers: [AppController],
   providers: [AppService],

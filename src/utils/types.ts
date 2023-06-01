@@ -35,3 +35,31 @@ export enum REGION_MAPPING {
   tw2 = 'sea',
   vn2 = 'sea',
 }
+
+export enum TIER_RANKING {
+  IRON = 1,
+  BRONZE = 2,
+  SILVER = 3,
+  GOLD = 4,
+  PLATINUM = 5,
+  DIAMOND = 6,
+  MASTER = 7,
+  GRANDMASTER = 8,
+  CHALLANGER = 9,
+}
+
+export enum RANK_RANKING {
+  I = 4,
+  II = 3,
+  III = 2,
+  IV = 1,
+}
+
+export const QUEUE_TYPE = {
+  420: 'RANKED_SOLO_5x5',
+  440: 'RANKED_FLEX_SR',
+  430: 'NORMAL_BLIND_PICK',
+  400: 'NORMAL_DRAFT_PICK',
+  450: 'ARAM',
+  0: 'ALL',
+};
