@@ -8,7 +8,7 @@ export class FindMatchByPUUIDInputDTO {
   queue: number;
   type: string;
   start: number;
-  count: number;
+  size: number;
   queueType?: string;
   page: number;
   limit: number;

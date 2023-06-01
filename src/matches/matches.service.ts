@@ -19,7 +19,7 @@ export class MatchesService {
   }
 
   async findMatchBySummonerPuuid(input: FindMatchByPUUIDInputDTO) {
-    const { name, region, startTime, endTime, queue, type, start, count } =
+    const { name, region, startTime, endTime, queue, type, start, limit } =
       input;
     const regionCluster = REGION_MAPPING[region];
 
@@ -36,7 +36,7 @@ export class MatchesService {
     if (queue) queryParams += `&queue=${queue}`;
     if (type) queryParams += `&type=${type}`;
     if (start) queryParams += `&start=${start}`;
-    if (count) queryParams += `&count=${count}`;
+    if (limit) queryParams += `&count=${limit}`;
 
     try {
       const url = `${getLolBaseUrl(
@@ -62,7 +62,7 @@ export class MatchesService {
 
     try {
       const matches = await Promise.all(
-        matchIds.map(async (matchId) => {
+        matchIds.map(async (matchId: string) => {
           const url = `${getLolBaseUrl(
             regionCluster,
           )}/match/v5/matches/${matchId}`;
@@ -77,7 +77,7 @@ export class MatchesService {
       const output = paginate(
         matches,
         +matchIdListDto.page,
-        +matchIdListDto.limit,
+        +matchIdListDto.size,
       );
 
       return output;
