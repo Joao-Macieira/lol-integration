@@ -6,12 +6,19 @@ import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 
 import { getLolBaseUrl } from 'src/utils/get-lol-url';
-import { SummonerInputDTO } from './dto/summoner.dto';
+import {
+  GetSummonerAcocuntInputDTO,
+  ProfileDataDTO,
+  SummonerInputDTO,
+  SummonerOutput,
+} from './dto/summoner.dto';
 import { Summoner } from './entities/summoner.entity';
 import {
   SummonerChampionsInputDTO,
   SummonerChampionsOutputDTO,
 } from './dto/summoner-champions.dto';
+import { QUEUE_TYPE } from 'src/utils/types';
+import { SummonerMapper } from './mapper/summoner.mapper';
 
 @Injectable()
 export class SummonersService {
@@ -27,7 +34,7 @@ export class SummonersService {
     this.apiKey = process.env.RIOT_API_KEY;
   }
 
-  async getSummonerAccount(input: SummonerInputDTO) {
+  async getSummonerAccount(input: GetSummonerAcocuntInputDTO) {
     const { name, region } = input;
 
     const url = `${getLolBaseUrl(
@@ -52,19 +59,29 @@ export class SummonersService {
   }
 
   async getSummonerProfile(summonerDto: SummonerInputDTO): Promise<any> {
-    const summonerAccount = await this.getSummonerAccount(summonerDto);
+    const summonerAccount = await this.getSummonerAccount({
+      name: summonerDto.name,
+      region: summonerDto.region,
+    });
     const { id } = summonerAccount;
 
-    const cachedData = await this.cacheManager.get(id);
+    const cachedData: SummonerOutput = await this.cacheManager.get(id);
 
-    if (cachedData) return cachedData;
+    if (cachedData) {
+      const filteredProfileData = cachedData.profileData.filter((profile) =>
+        summonerDto.filters.queueId
+          ? profile.queueType === QUEUE_TYPE[summonerDto.filters.queueId]
+          : true,
+      );
+
+      return SummonerMapper.toOutput({
+        profileData: filteredProfileData,
+        region: summonerDto.region,
+        masteryChampions: cachedData.masteryChampions,
+      });
+    }
 
     const summoner = await this.summonerRepository.findOne({ where: { id } });
-
-    if (!summoner) {
-      const dbSummonerCreated = this.summonerRepository.create(summonerAccount);
-      await this.summonerRepository.save(dbSummonerCreated);
-    }
 
     const url = `${getLolBaseUrl(
       summonerDto.region,
@@ -78,28 +95,55 @@ export class SummonersService {
       throw new HttpException('Summoner not found', 404);
     }
 
-    const profileData = response.data[0];
+    const profileData = response.data as ProfileDataDTO[];
 
     const championsMasteries = await this.getSummonerChampions({
       id,
       region: summonerDto.region,
     });
 
-    const output = {
-      leagueId: profileData.leagueId,
-      queueType: profileData.queueType,
-      tier: profileData.tier,
-      rank: profileData.rank,
-      summonerId: profileData.summonerId,
-      summonerName: profileData.summonerName,
-      leaguePoints: profileData.leaguePoints,
-      wins: profileData.wins,
-      losses: profileData.losses,
+    if (!summoner) {
+      const dbSummonerCreated = this.summonerRepository.create({
+        id: summonerAccount.id,
+        accountId: summonerAccount.accountId,
+        puuid: summonerAccount.puuid,
+        revisionDate: summonerAccount.revisionDate,
+        profileIconId: summonerAccount.profileIconId,
+        summonerLevel: summonerAccount.summonerLevel,
+        name: summonerAccount.name,
+        region: summonerDto.region,
+        profile: profileData,
+      });
+      await this.summonerRepository.save(dbSummonerCreated);
+    } else {
+      await this.summonerRepository
+        .createQueryBuilder()
+        .update()
+        .set({
+          profile: profileData,
+        })
+        .where('id = :id')
+        .setParameters({ id: summoner.id })
+        .execute();
+    }
+
+    const filteredProfileData = profileData.filter((profile) =>
+      summonerDto.filters.queueId && String(summonerDto.filters.queueId) !== '0'
+        ? profile.queueType === QUEUE_TYPE[summonerDto.filters.queueId]
+        : true,
+    );
+
+    const output = SummonerMapper.toOutput({
+      profileData: filteredProfileData,
       region: summonerDto.region,
       masteryChampions: championsMasteries,
-    };
+    });
 
-    await this.cacheManager.set(output.summonerId, output);
+    await this.cacheManager.set(output.profileData[0].summonerId, {
+      profileData,
+      region: summonerDto.region,
+      masteryChampions: championsMasteries,
+    });
 
     return output;
   }

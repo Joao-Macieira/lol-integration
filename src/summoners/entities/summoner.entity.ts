@@ -22,4 +22,10 @@ export class Summoner {
 
   @Column()
   summonerLevel: number;
+
+  @Column()
+  region: string;
+
+  @Column({ type: 'jsonb' })
+  profile: any;
 }
