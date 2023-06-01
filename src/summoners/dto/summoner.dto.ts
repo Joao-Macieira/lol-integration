@@ -1,5 +1,6 @@
 import { RANK_RANKING, REGIONS, TIER_RANKING } from 'src/utils/types';
 import { SummonerChampionsOutputDTO } from './summoner-champions.dto';
+import { Summoner } from '../entities/summoner.entity';
 
 export class SummonerInputDTO {
   name: string;
@@ -10,12 +11,13 @@ export class SummonerInputDTO {
 }
 
 export class SummonerOutput {
+  summonerInfo: Summoner;
   profileData: ProfileDataDTO[];
   region: REGIONS;
   masteryChampions: SummonerChampionsOutputDTO[];
 }
 
-export class GetSummonerAcocuntInputDTO {
+export class GetSummonerAccountInputDTO {
   name: string;
   region: REGIONS;
 }

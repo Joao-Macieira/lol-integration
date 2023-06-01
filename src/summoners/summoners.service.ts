@@ -7,7 +7,7 @@ import { Cache } from 'cache-manager';
 
 import { getLolBaseUrl } from 'src/utils/get-lol-url';
 import {
-  GetSummonerAcocuntInputDTO,
+  GetSummonerAccountInputDTO,
   ProfileDataDTO,
   SummonerInputDTO,
   SummonerOutput,
@@ -34,7 +34,7 @@ export class SummonersService {
     this.apiKey = process.env.RIOT_API_KEY;
   }
 
-  async getSummonerAccount(input: GetSummonerAcocuntInputDTO) {
+  async getSummonerAccount(input: GetSummonerAccountInputDTO) {
     const { name, region } = input;
 
     const url = `${getLolBaseUrl(
@@ -75,6 +75,7 @@ export class SummonersService {
       );
 
       return SummonerMapper.toOutput({
+        summonerInfo: summonerAccount,
         profileData: filteredProfileData,
         region: summonerDto.region,
         masteryChampions: cachedData.masteryChampions,
@@ -134,12 +135,13 @@ export class SummonersService {
     );
 
     const output = SummonerMapper.toOutput({
+      summonerInfo: summonerAccount,
       profileData: filteredProfileData,
       region: summonerDto.region,
       masteryChampions: championsMasteries,
     });
 
-    await this.cacheManager.set(output.profileData[0].summonerId, {
+    await this.cacheManager.set(profileData[0].summonerId, {
       profileData,
       region: summonerDto.region,
       masteryChampions: championsMasteries,
