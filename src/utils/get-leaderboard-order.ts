@@ -15,9 +15,7 @@ export function getLeaderboardOrder(profiles: ProfileDataDTO[], name: string) {
     })
     .reverse();
 
-  const myPositionByRank = sortedProfilesByRank.findIndex(
-    (item) => item.summonerName === name,
-  );
+  const myPositionByRank = getMyPosition(sortedProfilesByRank, name);
 
   const sortedProfilesByWinRate = profiles
     .sort((a, b) => {
@@ -30,20 +28,30 @@ export function getLeaderboardOrder(profiles: ProfileDataDTO[], name: string) {
     })
     .reverse();
 
-  const myPositionByWinRate = sortedProfilesByWinRate.findIndex(
-    (item) => item.summonerName === name,
-  );
+  const myPositionByWinRate = getMyPosition(sortedProfilesByWinRate, name);
 
   return {
     leaguePoints: {
-      top: myPositionByRank + 1,
+      top:
+        myPositionByRank !== -1
+          ? myPositionByRank + 1
+          : "User don't have infos in this queue",
     },
     winRate: {
-      top: myPositionByWinRate + 1,
+      top:
+        myPositionByWinRate !== -1
+          ? myPositionByWinRate + 1
+          : "User don't have infos in this queue",
     },
   };
 }
 
 function caculateWinRate(wins: number, losses: number): number {
   return wins / (wins + losses);
+}
+
+function getMyPosition(profiles: ProfileDataDTO[], name: string) {
+  return profiles.findIndex((item) =>
+    item?.summonerName ? item.summonerName === name : false,
+  );
 }
