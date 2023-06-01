@@ -1,7 +1,7 @@
 import { RANK_RANKING, TIER_RANKING } from './types';
 import { ProfileDataDTO } from 'src/summoners/dto/summoner.dto';
 
-export function getLeaderboardOrder(profiles: ProfileDataDTO[], name) {
+export function getLeaderboardOrder(profiles: ProfileDataDTO[], name: string) {
   const sortedProfilesByRank = profiles
     .sort((a, b) => {
       if (TIER_RANKING[a.tier] > TIER_RANKING[b.tier]) return 1;

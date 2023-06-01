@@ -36,24 +36,24 @@ export enum REGION_MAPPING {
   vn2 = 'sea',
 }
 
-export enum TIER_RANKING {
-  IRON = 1,
-  BRONZE = 2,
-  SILVER = 3,
-  GOLD = 4,
-  PLATINUM = 5,
-  DIAMOND = 6,
-  MASTER = 7,
-  GRANDMASTER = 8,
-  CHALLANGER = 9,
-}
+export const TIER_RANKING = {
+  IRON: 1,
+  BRONZE: 2,
+  SILVER: 3,
+  GOLD: 4,
+  PLATINUM: 5,
+  DIAMOND: 6,
+  MASTER: 7,
+  GRANDMASTER: 8,
+  CHALLANGER: 9,
+};
 
-export enum RANK_RANKING {
-  I = 4,
-  II = 3,
-  III = 2,
-  IV = 1,
-}
+export const RANK_RANKING = {
+  I: 4,
+  II: 3,
+  III: 2,
+  IV: 1,
+};
 
 export const QUEUE_TYPE = {
   420: 'RANKED_SOLO_5x5',

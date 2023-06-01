@@ -1,4 +1,4 @@
-import { RANK_RANKING, REGIONS, TIER_RANKING } from 'src/utils/types';
+import { REGIONS } from 'src/utils/types';
 import { SummonerChampionsOutputDTO } from './summoner-champions.dto';
 import { Summoner } from '../entities/summoner.entity';
 
@@ -25,8 +25,8 @@ export class GetSummonerAccountInputDTO {
 export class ProfileDataDTO {
   leagueId: string;
   queueType: number;
-  tier: TIER_RANKING;
-  rank: RANK_RANKING;
+  tier: string;
+  rank: string;
   summonerId: string;
   summonerName: string;
   leaguePoints: number;
